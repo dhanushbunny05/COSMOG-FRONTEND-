@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COSMAG 2K25</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/Users/dhanushbunny/Downloads/cosmag_updated/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div class="event-info">
+      <span>Dept of CSG</span> | <span>St. Martin’s Eng College | 19-20 Sep, 2025</span>
+    </div>
+  </div>
+
+  <header>
+    <div class="menu-icon" onclick="openNav()">&#9776;</div>
+    <div class="logo">COSMAG 2K25</div>
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#events">Events</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#Organizers">Organizers</a>
+      <a class="cta-button" href="register.html">Register</a>
+    </nav>
+  </header>
+
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#home" onclick="closeNav()">Home</a>
+    <a href="#events" onclick="closeNav()">Events</a>
+    <a href="#gallery" onclick="closeNav()">Gallery</a>
+    <a href="admin.html">Admin</a>
+  </div>
+
+  <section class="hero-section" id="home">
+    <video autoplay muted loop class="background-video">
+      <source src="bg video copy.mp4" type="video/mp4">
+      <source src="bg video copy.webm" type="video/webm">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-overlay">
+      <h1>Welcome to COSMAG 2K25</h1>
+      <p>Department of Computer Science & Design</p>
+      <a href="register.html" class="cta-button">Register Now</a>
+    </div>
+      
+    <div class="scroll-indicator">
+      <a href="#events">
+        <span></span>
+        <i class="fas fa-chevron-down animated-arrow"></i>
+      </a>
+    </div>
+    
+  </section>
+
+  <section id="events">
+    <div class="container">
+      <div class="sidebar-container" id="sidebar-container">
+        <button class="nav-btn active" data-index="0">Day 1 – Morning</button>
+        <button class="nav-btn" data-index="1">Day 1 – Evening</button>
+        <button class="nav-btn" data-index="2">Day 2 – Morning</button>
+        <button class="nav-btn" data-index="3">Day 2 – Evening</button>
+      </div>
+      <div class="main-content" id="main-content">
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="gallery-container">
+      <h2>Gallery</h2>
+      <div class="main-image-slider">
+        <img class="gallery-item active" src="Screenshot 2025-06-28 at 2.11.45 PM.png" alt="Gallery Image 1">
+        <img class="gallery-item" src="Screenshot 2025-06-28 at 2.19.30 PM.png" alt="Gallery Image 2">
+        <img class="gallery-item" src="Screenshot 2025-06-30 at 2.04.34 PM.png" alt="Gallery Image 3">
+        <img class="gallery-item" src="Screenshot 2025-07-24 at 10.17.29 PM.png" alt="Gallery Image 4">
+        
+        <div class="gallery-nav">
+          <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+          <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+
+      <div class="thumbnail-container">
+        <img class="thumbnail active" src="https://picsum.photos/100/70?random=1" data-index="0" alt="Thumbnail 1">
+        <img class="thumbnail" src="https://picsum.photos/100/70?random=2" data-index="1" alt="Thumbnail 2">
+        <img class="thumbnail" src="https://picsum.photos/100/70?random=3" data-index="2" alt="Thumbnail 3">
+        <img class="thumbnail" src="https://picsum.photos/100/70?random=4" data-index="3" alt="Thumbnail 4">
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2K25 COSMOG | by Department of  Computer Science and Design</p>
+  </footer>
+
+  <script src="/Users/dhanushbunny/Downloads/cosmag_updated/app.js"></script>
+</body>
+</html>
