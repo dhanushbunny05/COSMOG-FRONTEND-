@@ -54,7 +54,7 @@ header {
     font-size: 24px;
     cursor: pointer;
     color: white;
-    display: none;
+    display: none; /* Hidden on desktop */
 }
 
 .nav-links a {
@@ -78,35 +78,6 @@ header {
 
 .cta-button:hover {
     background-color: #e6b800;
-}
-
-/* Sidebar */
-.sidebar {
-    height: 100%;
-    width: 0%;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    background-color: #1f2937;
-    overflow-x: hidden;
-    transition: 0.4s;
-    padding-top: 60px;
-}
-
-.sidebar a {
-    padding: 12px 30px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #f1f1f1;
-    display: block;
-}
-
-.sidebar .closebtn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 36px;
 }
 
 /* Hero Section */
@@ -483,100 +454,100 @@ footer {
     text-align: center;
 }
 
-/* --- Responsive Design and Mobile Fixes --- */
+/* --- Mobile styles --- */
 @media (max-width: 900px) {
-    /* Container always visible on mobile, eliminates blank event section bug */
+    /* Main Layout Overrides */
     .container {
-        transform: none !important;
-        opacity: 1 !important;
-        animation: none !important;
-        height: auto !important; /* Allows natural content flow */
-        min-height: 0;
+        flex-direction: column;
+        height: auto;
+        max-width: 95vw;
+        margin: 1em auto;
     }
 
-    /* HERO/ HOME Section - to make less zoomed and cleaner on mobile */
-    .hero-section {
-        height: 65vh;
-        padding: 20px 6px;
+    .sidebar-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background: #faf0dc;
+        padding: 10px 15px;
+        border-radius: 16px 16px 0 0;
+        flex-wrap: wrap;
     }
-    .hero-overlay {
-        padding: 10px;
-    }
-    .hero-overlay h1 {
-        font-size: 1.2rem;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
-        margin-bottom: 8px;
-    }
-    .hero-overlay p {
-        font-size: 0.92rem;
-        margin-top: 7px;
-    }
-    .hero-overlay .cta-button {
-        margin-top: 16px;
-        padding: 10px 18px;
-        font-size: 0.92rem;
-    }
-    .background-video {
-        min-width: 100vw;
-        min-height: 65vh;
-        opacity: 0.35;
+
+    .sidebar-container .nav-btn {
+        margin: 0 8px 0 0;
+        padding: 14px 12px;
+        font-size: 0.95rem;
     }
 
     .main-content {
-        padding: 12px;
+        padding: 20px 15px;
+        background: #fff;
         overflow-y: visible;
     }
+
     .event-panel {
-        padding: 12px;
+        padding: 20px 16px;
+        margin-bottom: 14px;
+        height: auto; /* Allow content to dictate height on mobile */
     }
-    .event-box {
-        flex: 1 1 100%;
-        height: auto;
-        font-size: 1.02rem;
-    }
-    .event-box:hover {
-        height: auto;
-    }
-    .event-info {
-        max-height: none;
-        opacity: 1;
-        margin-top: 10px;
-        font-size: 0.96rem;
-    }
-    .sidebar-container {
-        flex-direction: row;
-        justify-content: flex-start;
-        padding: 10px;
-    }
-    .sidebar-container .nav-btn {
-        margin: 0 8px 0 0;
-    }
-    .nav-links {
-        display: none;
-    }
-    .menu-icon {
-        display: block;
-    }
-    .top-bar {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .event-info {
-        margin-top: 5px;
-    }
-    .main-image-slider {
-        height: 250px;
-    }
-    .thumbnail-container {
-        gap: 10px;
-    }
-    .scroll-indicator {
-        bottom: 10px;
-    }
-    .animated-arrow {
+
+    /* Hero Section Adjustments */
+    .hero-overlay h1 {
         font-size: 1.3rem;
     }
-}
 
-/* End of CSS */
+    .hero-overlay p {
+        font-size: 0.95rem;
+    }
+
+    /* Mobile Navbar Overrides */
+    .nav-links {
+        display: none; /* Hidden by default on mobile */
+        flex-direction: column;
+        background: #000;
+        position: absolute;
+        top: 60px; /* Below header */
+        right: 0;
+        width: 100%;
+        z-index: 999;
+        border-top: 1px solid #444;
+    }
+    
+    .nav-links.show {
+        display: flex; /* Show nav when toggled */
+    }
+    
+    .menu-icon {
+        display: block; /* Show hamburger on mobile */
+        cursor: pointer;
+        font-size: 28px;
+        color: white;
+        user-select: none;
+        padding: 10px 20px;
+    }
+    
+    .nav-links a {
+        padding: 15px 20px;
+        border-bottom: 1px solid #333;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+        background-color: #ffcc00;
+        color: black;
+    }
+    
+    header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: black;
+        z-index: 1000;
+    }
+}
