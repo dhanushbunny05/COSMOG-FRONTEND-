@@ -1,59 +1,6 @@
-const eventData = [
-    {
-        title: "Day 1 – Morning",
-        subEvents: [
-            { name: "Art & Craft", info: "Art & Craft is a creative event where participants create artwork using various materials. It fosters innovation and teamwork." },
-            { name: "Inauguration", info: "The Inauguration ceremony formally opens the event, with speeches from dignitaries and a keynote address." }
-        ]
-    },
-    {
-        title: "Day 1 – Evening",
-        subEvents: [
-            { name: "Game-On", info: "Game-On is a competitive gaming event featuring various multiplayer matches and contests." },
-            { name: "Mission Impossible", info: "Mission Impossible challenges teams with complex puzzles and tasks to test their problem-solving skills." }
-        ]
-    },
-    {
-        title: "Day 2 – Morning",
-        subEvents: [
-            { name: "Movie Rampage", info: "Movie Rampage is a fun-filled event where participants showcase skills in film making and editing." },
-            { name: "Editing Contest", info: "The Editing Contest tests participants' abilities to creatively edit videos within time constraints." }
-        ]
-    },
-    {
-        title: "Day 2 – Evening",
-        subEvents: [
-            { name: "TreQueza", info: "TreQueza is a team-based quiz contest with various rounds testing general knowledge and technical topics." },
-            { name: "Cultural Carnival", info: "The Cultural Carnival features performances, dance, and music to celebrate diverse cultures." }
-        ]
-    }
-];
-
 const mainContent = document.getElementById('main-content');
 const sidebarBtns = document.querySelectorAll('.nav-btn');
 const eventContainer = document.querySelector('#events .container');
-
-function createPanelHTML(data) {
-    return `
-      <div class="event-panel">
-        <h2>${data.title}</h2>
-        <div class="sub-events">
-          ${data.subEvents.map(event => `
-            <div class="event-box">
-              <h3>${event.name}</h3>
-              <div class="event-info">${event.info}</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-}
-
-function renderPanels() {
-    if (mainContent) {
-        mainContent.innerHTML = eventData.map(createPanelHTML).join('');
-    }
-}
 
 function updateActiveButton(index) {
     sidebarBtns.forEach(btn => btn.classList.remove('active'));
@@ -62,30 +9,7 @@ function updateActiveButton(index) {
     }
 }
 
-// Handle scroll snapping and button highlighting
-if (mainContent) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const panels = document.querySelectorAll('.event-panel');
-                const index = Array.from(panels).indexOf(entry.target);
-                if (index !== -1) {
-                    updateActiveButton(index);
-                }
-            }
-        });
-    }, {
-        root: mainContent,
-        threshold: 0.5,
-        rootMargin: '0px'
-    });
-
-    // Initial render and attach observers
-    renderPanels();
-    document.querySelectorAll('.event-panel').forEach(panel => observer.observe(panel));
-}
-
-// Sidebar button click to scroll
+// Handle sidebar button click to scroll
 sidebarBtns.forEach((btn, index) => {
     btn.addEventListener('click', () => {
         const panels = document.querySelectorAll('.event-panel');
@@ -101,18 +25,17 @@ if (eventContainer) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
+                // Unobserve after animation
+                containerObserver.unobserve(entry.target);
             }
         });
     }, {
         threshold: 0.5
     });
-
     containerObserver.observe(eventContainer);
 }
 
-// -------------------------
-// Gallery Logic (Safe Version)
-// -------------------------
+// Gallery Logic
 const galleryItems = document.querySelectorAll('.gallery-item');
 const thumbnails = document.querySelectorAll('.thumbnail');
 const prevBtn = document.querySelector('.prev-btn');
@@ -168,13 +91,38 @@ if (galleryItems.length > 0) {
     showSlide(0);
 }
 
-// -------------------------
-// Sidebar navigation logic
-// -------------------------
-function openNav() {
-    document.getElementById("mySidebar").style.width = "250px";
-}
+// Mobile Navbar logic
+const menuIcon = document.querySelector('.menu-icon');
+const navLinks = document.querySelector('.nav-links');
 
-function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
-}
+menuIcon.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+});
+
+// Close mobile menu when a link is clicked
+navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('show');
+    });
+});
+
+
+// Initial observer setup for the pre-filled panels
+document.addEventListener('DOMContentLoaded', () => {
+    const mainContentPanels = document.querySelectorAll('.event-panel');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const index = Array.from(mainContentPanels).indexOf(entry.target);
+                if (index !== -1) {
+                    updateActiveButton(index);
+                }
+            }
+        });
+    }, {
+        root: mainContent,
+        threshold: 0.5,
+        rootMargin: '0px'
+    });
+    mainContentPanels.forEach(panel => observer.observe(panel));
+});
