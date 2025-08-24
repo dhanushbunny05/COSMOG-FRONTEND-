@@ -38,7 +38,7 @@ if (eventContainer) {
         entry.target.classList.add('active');
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.2 });
   containerObserver.observe(eventContainer);
 }
 
