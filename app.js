@@ -110,7 +110,9 @@ if (eventContainer) {
     containerObserver.observe(eventContainer);
 }
 
-// Gallery Logic
+// -------------------------
+// Gallery Logic (Safe Version)
+// -------------------------
 const galleryItems = document.querySelectorAll('.gallery-item');
 const thumbnails = document.querySelectorAll('.thumbnail');
 const prevBtn = document.querySelector('.prev-btn');
@@ -132,35 +134,43 @@ function showSlide(index) {
     galleryItems.forEach(item => item.classList.remove('active'));
     thumbnails.forEach(thumb => thumb.classList.remove('active'));
 
-    galleryItems[currentSlide].classList.add('active');
-    thumbnails[currentSlide].classList.add('active');
+    if (galleryItems[currentSlide]) {
+        galleryItems[currentSlide].classList.add('active');
+    }
+    if (thumbnails[currentSlide]) {
+        thumbnails[currentSlide].classList.add('active');
+    }
 }
 
+// Thumbnail clicks
 if (thumbnails.length > 0) {
-    thumbnails.forEach(thumb => {
-        thumb.addEventListener('click', (e) => {
-            const index = parseInt(e.target.getAttribute('data-index'));
-            showSlide(index);
+    thumbnails.forEach((thumb, i) => {
+        thumb.addEventListener('click', () => {
+            showSlide(i);
         });
     });
 }
 
-if (prevBtn && nextBtn) {
+// Prev/Next buttons
+if (prevBtn) {
     prevBtn.addEventListener('click', () => {
         showSlide(currentSlide - 1);
     });
-
+}
+if (nextBtn) {
     nextBtn.addEventListener('click', () => {
         showSlide(currentSlide + 1);
     });
 }
 
-// Initialize gallery safely
+// Initialize safely
 if (galleryItems.length > 0) {
-    showSlide(currentSlide);
+    showSlide(0);
 }
 
-// Sidebar navigation logic for mobile menu
+// -------------------------
+// Sidebar navigation logic
+// -------------------------
 function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
 }
