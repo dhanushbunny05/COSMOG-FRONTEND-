@@ -50,7 +50,9 @@ function createPanelHTML(data) {
 }
 
 function renderPanels() {
-    mainContent.innerHTML = eventData.map(createPanelHTML).join('');
+    if (mainContent) {
+        mainContent.innerHTML = eventData.map(createPanelHTML).join('');
+    }
 }
 
 function updateActiveButton(index) {
@@ -61,46 +63,52 @@ function updateActiveButton(index) {
 }
 
 // Handle scroll snapping and button highlighting
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const panels = document.querySelectorAll('.event-panel');
-            const index = Array.from(panels).indexOf(entry.target);
-            if (index !== -1) {
-                updateActiveButton(index);
+if (mainContent) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const panels = document.querySelectorAll('.event-panel');
+                const index = Array.from(panels).indexOf(entry.target);
+                if (index !== -1) {
+                    updateActiveButton(index);
+                }
             }
-        }
+        });
+    }, {
+        root: mainContent,
+        threshold: 0.5,
+        rootMargin: '0px'
     });
-}, {
-    root: mainContent,
-    threshold: 0.5,
-    rootMargin: '0px'
-});
+
+    // Initial render and attach observers
+    renderPanels();
+    document.querySelectorAll('.event-panel').forEach(panel => observer.observe(panel));
+}
 
 // Sidebar button click to scroll
 sidebarBtns.forEach((btn, index) => {
     btn.addEventListener('click', () => {
         const panels = document.querySelectorAll('.event-panel');
-        panels[index].scrollIntoView({ behavior: 'smooth' });
+        if (panels[index]) {
+            panels[index].scrollIntoView({ behavior: 'smooth' });
+        }
     });
 });
 
 // Animate the container when it comes into view
-const containerObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        }
+if (eventContainer) {
+    const containerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, {
+        threshold: 0.5
     });
-}, {
-    threshold: 0.5
-});
 
-containerObserver.observe(eventContainer);
-
-// Initial render and attach observers
-renderPanels();
-document.querySelectorAll('.event-panel').forEach(panel => observer.observe(panel));
+    containerObserver.observe(eventContainer);
+}
 
 // Gallery Logic
 const galleryItems = document.querySelectorAll('.gallery-item');
@@ -111,6 +119,8 @@ const nextBtn = document.querySelector('.next-btn');
 let currentSlide = 0;
 
 function showSlide(index) {
+    if (galleryItems.length === 0 || thumbnails.length === 0) return;
+
     if (index >= galleryItems.length) {
         currentSlide = 0;
     } else if (index < 0) {
@@ -118,7 +128,7 @@ function showSlide(index) {
     } else {
         currentSlide = index;
     }
-    
+
     galleryItems.forEach(item => item.classList.remove('active'));
     thumbnails.forEach(thumb => thumb.classList.remove('active'));
 
@@ -126,23 +136,29 @@ function showSlide(index) {
     thumbnails[currentSlide].classList.add('active');
 }
 
-thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', (e) => {
-        const index = parseInt(e.target.getAttribute('data-index'));
-        showSlide(index);
+if (thumbnails.length > 0) {
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', (e) => {
+            const index = parseInt(e.target.getAttribute('data-index'));
+            showSlide(index);
+        });
     });
-});
+}
 
-prevBtn.addEventListener('click', () => {
-    showSlide(currentSlide - 1);
-});
+if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => {
+        showSlide(currentSlide - 1);
+    });
 
-nextBtn.addEventListener('click', () => {
-    showSlide(currentSlide + 1);
-});
+    nextBtn.addEventListener('click', () => {
+        showSlide(currentSlide + 1);
+    });
+}
 
-// Initialize gallery
-showSlide(currentSlide);
+// Initialize gallery safely
+if (galleryItems.length > 0) {
+    showSlide(currentSlide);
+}
 
 // Sidebar navigation logic for mobile menu
 function openNav() {
